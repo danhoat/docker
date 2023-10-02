@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+
+
+          app:
+            build:
+              context: ./
+              dockerfile: Dockerfile
+            image: sail
+            container_name: php82
+            restart: unless-stopped
+            volumes:
+              - ./src:/var/www/html
+            working_dir: /var/www/html
+            networks:
+              - php82
+
+          db:
+            image: mysql:5.7
+            container_name: sail-db
+            restart: unless-stopped
+            environment:
+              MYSQL_DATABASE: ${DB_DATABASE}
+              MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+              MYSQL_PASSWORD: ${DB_PASSWORD}
+              MYSQL_USER: ${DB_USERNAME}
+              SERVICE_TAGS: dev
+              SERVICE_NAME: mysql
+            volumes:
+              - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            networks:
+              - php82
+
+          phpmyadmin:
+              image: phpmyadmin/phpmyadmin:4.9
+              ports:
+                - 8080:80
+              volumes:
+                - ./uploads.ini:/usr/local/etc/php/conf.d/phpmyadmin-misc.ini
+              environment:
+                - PMA_ARBITRARY=1
+                #- PMA_HOSTS=db:localhost, db:172.23.32.1
+              depends_on:
+                - db
+              networks:
+                - php82
+
+
+          nginx:
+            image: nginx:alpine
+            container_name: sail-nginxok
+            restart: unless-stopped
+            ports:
+              - 8000:80
+            volumes:
+              - ./:/var/www/html
+              - ./docker-compose/nginx:/etc/nginx/conf.d/
+            networks:
+              - php82
+networks:
+      php82:
+        driver: bridge
