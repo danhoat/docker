@@ -3,7 +3,7 @@
 
 
 $hostname	= "db";
-$dbname		= "wpdb";
+$dbname		= "db_hoadev92";
 $username	= "admin";
 $password	= "admin";
 

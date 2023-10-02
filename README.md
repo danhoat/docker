@@ -9,3 +9,5 @@ Use docker build web server(Nginx + PHP + PHPmyadmin)
  - host: db
  -username: admin
  - password: admin
+
+ Lưu ý: phải có file index.php mặc định ở root folder. Nếu k sẽ báo lỗi 
