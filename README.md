@@ -11,3 +11,5 @@ Use docker build web server(Nginx + PHP + PHPmyadmin)
  - password: admin
 
  Lưu ý: phải có file index.php mặc định ở root folder. Nếu k sẽ báo lỗi 
+ - tùy vào phpversion mà nội dung file docker có thể thay đổi.
+ - nếu nâng phpmyadmin, có thể k login được.
